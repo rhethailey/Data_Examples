@@ -9,7 +9,8 @@ inc = include_directories('include')
 
 # Subdirectories
 subdir('src')
-subdir('tools')
+subdir('send')
+# subdir('receive')
 
 ### Custom target to run clang-format
 ##clang_format = find_program('clang-format', required: true)
