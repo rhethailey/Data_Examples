@@ -1,0 +1,2 @@
+/usr/bin/ar qc libudpManager.a  CMakeFiles/udpManager.dir/udpManager/udpManager.cpp.o
+/usr/bin/ranlib libudpManager.a

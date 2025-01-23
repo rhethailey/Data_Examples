@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/sendStringUDP.dir/send/sendStringUDP.cpp.o  -o send_exe/sendStringUDP  libudpManager.a -lpthread 

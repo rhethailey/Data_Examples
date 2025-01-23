@@ -1,0 +1,76 @@
+// custom includes
+#include "udpManager.h"
+
+// void valueMail(UdpManager& udpManager, std::atomic<bool>& stopFlag) {
+//     std::vector<std::string> myVec{};
+
+//     auto start = std::chrono::high_resolution_clock::now();
+//     while (!stopFlag.load()) {
+//         // Check for received messages
+
+//         // this is lazy as shit?
+//         // std::vector<std::string> myVec{};
+//         std::vector<float> myVec{};
+//         // std::array<double,2> myVec{};
+//         std::string receivedMessage = udpManager.getMail();
+//         std::stringstream ss(receivedMessage);
+
+//         if (!receivedMessage.empty()) {
+//             while (ss.good()) {
+//                 std::string substr;
+//                 getline(ss, substr, ',');
+//                 // myVec.
+//                 myVec.push_back(std::stof(substr));
+//             }
+//             // myVec[0] = myVec[0] + rand() % 1;
+//             std::cout << "Received message: \t";
+//             for (size_t i = 0; i < myVec.size(); i++) {
+//                 std::cout << myVec[i] << "\t";
+//             }
+//             auto end = std::chrono::high_resolution_clock::now();
+//             std::chrono::duration<double> array_duration = end - start;
+//             std::cout << "\t dt: " << array_duration.count() << "\n";
+//             start = std::chrono::high_resolution_clock::now();
+//             // std::cout << "\n";/
+
+//             // Process the received message
+//             // std::cout << "Received message: " << receivedMessage << std::endl;
+//         }
+//     }
+// }
+
+
+int main() {
+// Define IP address and port // Hard coded shit
+    const std::string ip = "127.0.0.1";     // for local testing
+    int port = 12345;
+    int freq = 1; // (Hz)
+
+    std::string myString = "Hello, world\t";
+    std::string newString;
+
+    // *** UDP MANAGEMENT *** //
+    UdpManager udpGetMail(ip, port, freq);
+    // Define data type sent in the UDP manager
+    udpGetMail.setDataType(DataType::STRING); // Lazy initialization || Update in future iteration
+
+    // Start UDP's
+    udpGetMail.startUdpListener();
+
+    // Atomic flag to stop the value updater thread
+    std::atomic<bool> stopFlag(false);
+
+    // This Thread prints the updated value
+    std::thread getThread(valueMail, std::ref(udpGetMail), std::ref(stopFlag));
+
+    // Simulate main thread doing something else for 10 seconds
+    std::this_thread::sleep_for(std::chrono::seconds(10));
+
+    // Stop the UdpManager and the value updater thread
+    stopFlag = true;
+    if (getThread.joinable()) { getThread.join(); }
+
+    // udpSend.stop();
+
+    return 0;
+}
