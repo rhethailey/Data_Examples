@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/sendDoubleUDP.dir/send/sendDoubleUDP.cpp.o  -o send_exe/sendDoubleUDP  libudpManager.a -lpthread 

@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/getUDP.dir/get/getUDP.cpp.o  -o get_exe/getUDP  libudpManager.a -lpthread 
