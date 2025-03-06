@@ -71,7 +71,7 @@ switch answer
         
         % Export to PDF with vector graphics and proper resolution
         % grabs current figure
-        print(gcf, ['figs/fig6u'], '-dpdf', '-vector');
+        print(gcf, ['figs/lazy_plot'], '-dpdf', '-vector');
 
     case 'no'
 end
