@@ -46,14 +46,14 @@ ax.XAxis.FontSize = 32;
 xLIM = [0 2*pi];
 yLIM = [-1 1]*1.25
 
-set(ax, 'YTick', -1:.5:1);  % Define x-tick positions
-set(ax, 'XTick', 0:pi/2:2*pi);  % Define x-tick position
-set(ax,'XLim',xLIM)
-set(ax,'YLim',yLIM)
-
-
 xticks('auto')
 yticklabels('auto')
+
+set(ax, 'YTick', -1:.5:1);  % Define x-tick positions
+set(ax, 'XTick', 0:pi/2:2*pi);  % Define x-tick position
+set(ax,'XTickLabel',{'0','$\pi/2$','$\pi$','$3\pi/2$','$2\pi$','$\pi/2$','$\pi$','$3\pi/2$','$2\pi$'})
+set(ax,'XLim',xLIM)
+set(ax,'YLim',yLIM)
 
 
 %% save // LAZY
