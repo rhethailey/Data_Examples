@@ -9,4 +9,6 @@ UDP communications examples for C++ & python for streaming in real time. Header 
             ├── udpManager.cpp
             └── udpManager.h
     └── python
+└── figures
+    └── ex_figs
 ```
