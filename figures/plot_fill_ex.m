@@ -36,6 +36,7 @@ grid on
 pxm = plot(t,xmean);
 pxt = plot(t,xtrue);
 
+% this fills within the bounds pre-defined by x
 fxstd = fill([t fliplr(t)], [xlb fliplr(xub)], col(1,:), ...
     'FaceAlpha', .25, 'EdgeColor', 'none'); 
 
