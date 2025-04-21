@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/server.dir/handshake/server.cpp.o  -o send_exe/server 
