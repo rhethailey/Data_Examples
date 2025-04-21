@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/rhet/WeBR_Harmony/Data_Examples/TCP/handshake_cmake/handshake/client.cpp
+iostream
+-
+thread
+-
+chrono
+-
+netinet/in.h
+-
+sys/socket.h
+-
+arpa/inet.h
+-
+unistd.h
+-
+cstdlib
+-
+

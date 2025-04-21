@@ -8,49 +8,59 @@
 #include <unistd.h>
 #include <cstdlib>
 
-int client_wait(std::string sendip) {
-    // pre connect shit
-    int sock = 0;
-    struct sockaddr_in serv_addr;
+void wait_for_client(){
+    // server init
+    int server_fd, new_socket;
+    struct sockaddr_in address;
+    int addrlen = sizeof(address);
 
-    // Create socket
-    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        perror("Socket creation error");
-        return -1;
+    // Create socket file descriptor
+    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
+        perror("Socket failed");
+        exit(EXIT_FAILURE);
     }
 
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(12347);
-
-    // Convert IPv4 addresses from text to binary form
-    if (inet_pton(AF_INET, sendip.c_str(), &serv_addr.sin_addr) <= 0) {
-        perror("Invalid address / Address not supported");
-        return -1;
+    int opt = 1;
+    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt))) {
+        perror("setsockopt");
+        exit(EXIT_FAILURE);
     }
 
-    std::cout << "Waiting for Process 1...\n";
+    // Set up address structure
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_port = htons(12347);
 
-    // Attempt to connect to server
-    while (connect(sock, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
-        usleep(100000); // Wait 100ms before retrying
+    // Bind socket to port
+    if (bind(server_fd, (struct sockaddr*)&address, sizeof(address)) < 0) {
+        perror("Bind failed");
+        exit(EXIT_FAILURE);
     }
 
-    std::cout << "Connected to Process 1, now starting execution.\n";
+    // Listen for incoming connections
+    if (listen(server_fd, 1) < 0) {
+        perror("Listen failed");
+        exit(EXIT_FAILURE);
+    }
+
+    std::cout << "Process 1 ready. Waiting for Process 2 to connect...\n";
+
+    // Accept connection from client (Process 2)
+    if ((new_socket = accept(server_fd, (struct sockaddr*)&address, (socklen_t*)&addrlen)) < 0) {
+        perror("Accept failed");
+        exit(EXIT_FAILURE);
+    }
+
+    std::cout << "Process 2 connected! Starting execution...\n";
 
     // Cleanup
-    close(sock);
-
-    return 0;
+    close(new_socket);
+    close(server_fd);
 }
 
 int main()
-{
-   
-    std::cout << "Waiting..." << std::endl;
-
-    int foo;
-    std::string ip = "0.0.0.0";
-    foo = client_wait(ip);
+{   
+    wait_for_client();
 
 
     // *** run executable *** 
