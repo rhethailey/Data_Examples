@@ -2,7 +2,7 @@ clear all, clc
 
 
 % insert your color pallette of choice
-col = parula(4);
+col = parula(10);
 
 set(groot,'defaulttextinterpreter','latex');
 set(groot,'defaultLegendInterpreter','latex');
@@ -13,11 +13,12 @@ set(groot, 'DefaultAxesColorOrder', col); % lazy color changing
 
 dt = .01;
 t = 0:dt:2*pi;
-y1 = sin(t);
-y2 = sin(2*t);
+num = 10;
 
-x = cos(t);
-
+xtrue = cos(t);
+x = xtrue.*[ones(num,1)] + 0.2*randn(num,length(t));
+xvar = std(x);
+xlb = xtrue - 3*xvar;
 
 figure(1)
 clf(1)
@@ -27,9 +28,11 @@ set(figure(1), 'Units', 'Inches', 'Position', [1.5 0.25, 10, 6]); % [x, y, width
 hold on
 grid on
 
-py1 = plot(t,y1);
-py2 = plot(t,y2);
-px = plot(t,x);
+px = plot(t,xtrue);
+
+fill([t fliplr(t)], [lbpd fliplr(ubpd)], col(4,:), ...
+    'FaceAlpha', .25, 'EdgeColor', 'none'); 
+
 
 l = legend([py1, py2, px],{'sin(t)','sin(2t)','cos(t)'},'Location','northoutside',...
     'Orientation','horizontal');
@@ -71,7 +74,7 @@ switch answer
         
         % Export to PDF with vector graphics and proper resolution
         % grabs current figure
-        print(gcf, ['figs/ml_plot'], '-dpdf', '-vector');
+        print(gcf, ['figs/fill_ex'], '-dpdf', '-vector');
 
     case 'no'
 end
